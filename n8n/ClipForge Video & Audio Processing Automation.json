@@ -1,27 +1,129 @@
 {
+  "id": "TAWDbWeaBV8ks8lI",
+  "meta": { "instanceId": "39b7b11aced64d95048a4abb42e3bf1a6dbe25ec85596bfd4e7d3bac2de8a53f" },
   "name": "ClipForge Video & Audio Processing Automation",
+  "tags": [
+    {
+      "id": "8nEMbAGtGeGsh5JJ",
+      "name": "Audio Extraction",
+      "createdAt": "2026-09-15T09:42:56.145Z",
+      "updatedAt": "2026-09-15T09:42:56.145Z"
+    },
+    {
+      "id": "AkX3ZsbKVjOVpR6n",
+      "name": "REST API",
+      "createdAt": "2026-09-15T09:44:12.644Z",
+      "updatedAt": "2026-09-15T09:44:12.644Z"
+    },
+    {
+      "id": "MSx4mNxhipcoMdsj",
+      "name": "FFmpeg",
+      "createdAt": "2026-09-15T09:43:23.797Z",
+      "updatedAt": "2026-09-15T09:43:23.797Z"
+    },
+    {
+      "id": "olQ4Ca0wOrgQgnM5",
+      "name": "Apify",
+      "createdAt": "2026-09-15T09:42:33.226Z",
+      "updatedAt": "2026-09-15T09:42:33.226Z"
+    },
+    {
+      "id": "pA969B83UgrPwcY4",
+      "name": "Media Automation",
+      "createdAt": "2026-09-15T09:43:39.275Z",
+      "updatedAt": "2026-09-15T09:43:39.275Z"
+    },
+    {
+      "id": "qDHBqldG6w9sIscI",
+      "name": "ClipForge",
+      "createdAt": "2026-09-15T09:44:06.566Z",
+      "updatedAt": "2026-09-15T09:44:06.566Z"
+    },
+    {
+      "id": "rAIUyRbyFS2qLStA",
+      "name": "Video Trimming",
+      "createdAt": "2026-09-15T09:43:57.751Z",
+      "updatedAt": "2026-09-15T09:43:57.751Z"
+    }
+  ],
   "nodes": [
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "clipforge-process",
-        "options": {}
+        "content": "## ClipForge Video & Audio Processing Automation\n\n### How it works\n\nThis workflow exposes a webhook endpoint that starts a ClipForge processing run through the Apify API. After triggering the Apify actor, it fetches the processed dataset output and returns those results directly in the webhook response.\n\n### Setup steps\n\n- Configure the Webhook Trigger URL and HTTP method expected by the calling application.\n- Add or verify Apify API authentication for the HTTP Request nodes, including the token used to call the ClipForge actor and dataset endpoints.\n- Confirm the actor ID, request body, and dataset ID expression in the two HTTP Request nodes match the intended ClipForge/Apify setup.\n- Ensure the Respond to Webhook node returns the desired dataset fields and response format.\n\n### Customization\n\nAdjust the ClipForge actor input payload, dataset fetch URL, or webhook response mapping to change what media is processed and what results are returned.",
+        "width": 480,
+        "height": 752
       },
-      "id": "f94ad00d-e06d-4918-bf64-2bccf06dede3",
-      "name": "Webhook Trigger",
-      "type": "n8n-nodes-base.webhook",
+      "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [
-        240,
-        -16
-      ],
-      "webhookId": "6a2cd212-cbe7-4d63-9f6c-d89e59597e03"
+      "position": [ -368, -224 ],
+      "id": "f0e85944-a8f1-47a1-b480-09e938f31d32",
+      "name": "Sticky Note"
     },
     {
       "parameters": {
-        "method": "POST",
+        "content": "## Receive webhook request\n\nStarts the automation when an external system calls the webhook endpoint.",
+        "width": 240,
+        "height": 320,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [ 192, -176 ],
+      "id": "7fdaf193-daaa-48d1-b31a-54d2e947f2cc",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Run ClipForge processing\n\nSends a POST request to the Apify ClipForge actor, then retrieves the processed dataset output from Apify. These two HTTP nodes are adjacent on the canvas and form the main processing cluster.",
+        "width": 416,
+        "height": 368,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [ 464, -224 ],
+      "id": "43997cdd-449c-41bd-859d-8a114eeb7425",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Return processed results\n\nSends the fetched ClipForge dataset results back to the original webhook caller.",
+        "width": 240,
+        "height": 384,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [ 912, -224 ],
+      "id": "4fbbc987-3729-4b7b-a1c8-f0f8b96d89a5",
+      "name": "Sticky Note3"
+    },
+    {
+      "id": "f94ad00d-e06d-4918-bf64-2bccf06dede3",
+      "name": "When ClipForge Process Initiated",
+      "type": "n8n-nodes-base.webhook",
+      "position": [ 240, -16 ],
+      "webhookId": "6a2cd212-cbe7-4d63-9f6c-d89e59597e03",
+      "parameters": {
+        "path": "clipforge-process",
+        "options": {},
+        "httpMethod": "POST"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "6c46bd03-f16a-4196-aa5f-bcb013ddc796",
+      "name": "Start ClipForge Processing",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [ 512, -16 ],
+      "parameters": {
         "url": "https://api.apify.com/v2/acts/budding_retrograde~clipforge/runs",
+        "method": "POST",
+        "options": {},
+        "jsonBody": "={\n  \"videoUrl\": \"{{ $json.body.videoUrl }}\",\n  \"startTime\": \"{{ $json.body.startTime || '' }}\",\n  \"endTime\": \"{{ $json.body.endTime || '' }}\",\n  \"extractAudio\": {{ $json.body.extractAudio || false }},\n  \"audioBitrate\": \"{{ $json.body.audioBitrate || '192k' }}\",\n  \"verticalReframe\": {{ $json.body.verticalReframe || false }}\n}",
+        "sendBody": true,
         "sendQuery": true,
+        "specifyBody": "json",
         "queryParameters": {
           "parameters": [
             {
@@ -33,164 +135,84 @@
               "value": "120"
             }
           ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"videoUrl\": \"{{ $json.body.videoUrl }}\",\n  \"startTime\": \"{{ $json.body.startTime || '' }}\",\n  \"endTime\": \"{{ $json.body.endTime || '' }}\",\n  \"extractAudio\": {{ $json.body.extractAudio || false }},\n  \"audioBitrate\": \"{{ $json.body.audioBitrate || '192k' }}\",\n  \"verticalReframe\": {{ $json.body.verticalReframe || false }}\n}",
-        "options": {}
+        }
       },
-      "id": "6c46bd03-f16a-4196-aa5f-bcb013ddc796",
-      "name": "Trigger ClipForge Actor",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.1,
-      "position": [
-        464,
-        -16
-      ]
+      "typeVersion": 4.1
     },
     {
+      "id": "c54de95c-2275-4b25-a1be-cb050239f210",
+      "name": "Retrieve Processed ClipForge Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [ 736, -16 ],
       "parameters": {
         "url": "=https://api.apify.com/v2/datasets/{{ $json.defaultDatasetId }}/items",
+        "options": {},
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
             {
               "name": "token",
-              "value": "={{ $('Webhook Trigger').item.json.body.apifyToken }}"
+              "value": "={{ $('When ClipForge Process Initiated').item.json.body.apifyToken }}"
             }
           ]
-        },
-        "options": {}
+        }
       },
-      "id": "c54de95c-2275-4b25-a1be-cb050239f210",
-      "name": "Fetch Processed Dataset",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.1,
-      "position": [
-        688,
-        -16
-      ]
+      "typeVersion": 4.1
     },
     {
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "={\n  \"status\": \"success\",\n  \"processedData\": {{ JSON.stringify($json) }}\n}",
-        "options": {}
-      },
       "id": "f70c32ba-47c4-4395-9e57-7b6fa0ea75b6",
-      "name": "Respond to Webhook",
+      "name": "Send Response to Webhook",
       "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1,
-      "position": [
-        912,
-        -16
-      ]
-    },
-    {
+      "position": [ 960, -16 ],
       "parameters": {
-        "content": "## ClipForge Media Processing Pipeline\n\nAutomates video trimming, audio extraction (MP3), watermarking, and 9:16 vertical reframing using Apify (`budding_retrograde/clipforge`).\n\n### Prerequisites\n* An active **Apify API Token**.\n\n### Setup Instructions\n1. Send a `POST` request to the **Webhook Trigger** node URL.\n2. Include the following JSON payload in your request body:\n\n```json\n{\n  \"apifyToken\": \"YOUR_APIFY_API_TOKEN\",\n  \"videoUrl\": \"[https://www.youtube.com/watch?v=EXAMPLE](https://www.youtube.com/watch?v=EXAMPLE)\",\n  \"startTime\": \"00:00:10\",\n  \"endTime\": \"00:00:40\",\n  \"extractAudio\": true,\n  \"audioBitrate\": \"192k\",\n  \"verticalReframe\": false\n}",
-        "height": 544,
-        "width": 1136
+        "options": {},
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"success\",\n  \"processedData\": {{ JSON.stringify($json) }}\n}"
       },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        112,
-        176
-      ],
-      "typeVersion": 1,
-      "id": "24354e6b-b967-4a90-a6a1-fde8247c7391",
-      "name": "Sticky Note"
+      "typeVersion": 1
     }
   ],
-  "pinData": {},
-  "connections": {
-    "Webhook Trigger": {
-      "main": [
-        [
-          {
-            "node": "Trigger ClipForge Actor",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Trigger ClipForge Actor": {
-      "main": [
-        [
-          {
-            "node": "Fetch Processed Dataset",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Fetch Processed Dataset": {
-      "main": [
-        [
-          {
-            "node": "Respond to Webhook",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
-  },
   "active": false,
+  "pinData": {},
   "settings": {
-    "executionOrder": "v1",
-    "binaryMode": "separate"
+    "binaryMode": "separate",
+    "executionOrder": "v1"
   },
   "versionId": "238fa929-2602-411b-80ee-5af86e6396e8",
-  "meta": {
-    "instanceId": "39b7b11aced64d95048a4abb42e3bf1a6dbe25ec85596bfd4e7d3bac2de8a53f"
-  },
   "nodeGroups": [],
-  "id": "TAWDbWeaBV8ks8lI",
-  "tags": [
-    {
-      "name": "Audio Extraction",
-      "id": "8nEMbAGtGeGsh5JJ",
-      "updatedAt": "2026-09-15T09:42:56.145Z",
-      "createdAt": "2026-09-15T09:42:56.145Z"
+  "connections": {
+    "When ClipForge Process Initiated": {
+      "main": [
+        [
+          {
+            "node": "Start ClipForge Processing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
-    {
-      "name": "REST API",
-      "id": "AkX3ZsbKVjOVpR6n",
-      "updatedAt": "2026-09-15T09:44:12.644Z",
-      "createdAt": "2026-09-15T09:44:12.644Z"
+    "Retrieve Processed ClipForge Data": {
+      "main": [
+        [
+          {
+            "node": "Send Response to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
-    {
-      "name": "FFmpeg",
-      "id": "MSx4mNxhipcoMdsj",
-      "updatedAt": "2026-09-15T09:43:23.797Z",
-      "createdAt": "2026-09-15T09:43:23.797Z"
-    },
-    {
-      "name": "Apify",
-      "id": "olQ4Ca0wOrgQgnM5",
-      "updatedAt": "2026-09-15T09:42:33.226Z",
-      "createdAt": "2026-09-15T09:42:33.226Z"
-    },
-    {
-      "name": "Media Automation",
-      "id": "pA969B83UgrPwcY4",
-      "updatedAt": "2026-09-15T09:43:39.275Z",
-      "createdAt": "2026-09-15T09:43:39.275Z"
-    },
-    {
-      "name": "ClipForge",
-      "id": "qDHBqldG6w9sIscI",
-      "updatedAt": "2026-09-15T09:44:06.566Z",
-      "createdAt": "2026-09-15T09:44:06.566Z"
-    },
-    {
-      "name": "Video Trimming",
-      "id": "rAIUyRbyFS2qLStA",
-      "updatedAt": "2026-09-15T09:43:57.751Z",
-      "createdAt": "2026-09-15T09:43:57.751Z"
+    "Start ClipForge Processing": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Processed ClipForge Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
-  ]
+  }
 }
