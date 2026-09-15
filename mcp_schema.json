@@ -1,0 +1,31 @@
+{
+  "name": "budding_retrograde/clipforge",
+  "description": "Video Trim, Watermark, Extract Audio, and Vertical Convert API for AI Agents.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": ["trim", "extract-audio", "watermark", "convert-vertical"],
+        "description": "The processing operation to execute."
+      },
+      "inputUrl": {
+        "type": "string",
+        "description": "Direct MP4 URL, YouTube link, or web video source supported by yt-dlp."
+      },
+      "startTime": {
+        "type": "number",
+        "description": "Start offset in seconds for trimming."
+      },
+      "duration": {
+        "type": "number",
+        "description": "Length of the trimmed clip in seconds."
+      },
+      "bitrate": {
+        "type": "string",
+        "description": "Audio extraction quality (e.g., '192k', '256k')."
+      }
+    },
+    "required": ["action", "inputUrl"]
+  }
+}
