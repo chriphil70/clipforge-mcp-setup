@@ -1,0 +1,196 @@
+{
+  "name": "ClipForge Video & Audio Processing Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "clipforge-process",
+        "options": {}
+      },
+      "id": "f94ad00d-e06d-4918-bf64-2bccf06dede3",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        -16
+      ],
+      "webhookId": "6a2cd212-cbe7-4d63-9f6c-d89e59597e03"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/budding_retrograde~clipforge/runs",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "={{ $json.body.apifyToken }}"
+            },
+            {
+              "name": "waitForFinish",
+              "value": "120"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"videoUrl\": \"{{ $json.body.videoUrl }}\",\n  \"startTime\": \"{{ $json.body.startTime || '' }}\",\n  \"endTime\": \"{{ $json.body.endTime || '' }}\",\n  \"extractAudio\": {{ $json.body.extractAudio || false }},\n  \"audioBitrate\": \"{{ $json.body.audioBitrate || '192k' }}\",\n  \"verticalReframe\": {{ $json.body.verticalReframe || false }}\n}",
+        "options": {}
+      },
+      "id": "6c46bd03-f16a-4196-aa5f-bcb013ddc796",
+      "name": "Trigger ClipForge Actor",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        464,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.defaultDatasetId }}/items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "={{ $('Webhook Trigger').item.json.body.apifyToken }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c54de95c-2275-4b25-a1be-cb050239f210",
+      "name": "Fetch Processed Dataset",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        688,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"success\",\n  \"processedData\": {{ JSON.stringify($json) }}\n}",
+        "options": {}
+      },
+      "id": "f70c32ba-47c4-4395-9e57-7b6fa0ea75b6",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        912,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## ClipForge Media Processing Pipeline\n\nAutomates video trimming, audio extraction (MP3), watermarking, and 9:16 vertical reframing using Apify (`budding_retrograde/clipforge`).\n\n### Prerequisites\n* An active **Apify API Token**.\n\n### Setup Instructions\n1. Send a `POST` request to the **Webhook Trigger** node URL.\n2. Include the following JSON payload in your request body:\n\n```json\n{\n  \"apifyToken\": \"YOUR_APIFY_API_TOKEN\",\n  \"videoUrl\": \"[https://www.youtube.com/watch?v=EXAMPLE](https://www.youtube.com/watch?v=EXAMPLE)\",\n  \"startTime\": \"00:00:10\",\n  \"endTime\": \"00:00:40\",\n  \"extractAudio\": true,\n  \"audioBitrate\": \"192k\",\n  \"verticalReframe\": false\n}",
+        "height": 544,
+        "width": 1136
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        112,
+        176
+      ],
+      "typeVersion": 1,
+      "id": "24354e6b-b967-4a90-a6a1-fde8247c7391",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Trigger ClipForge Actor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trigger ClipForge Actor": {
+      "main": [
+        [
+          {
+            "node": "Fetch Processed Dataset",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Processed Dataset": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "238fa929-2602-411b-80ee-5af86e6396e8",
+  "meta": {
+    "instanceId": "39b7b11aced64d95048a4abb42e3bf1a6dbe25ec85596bfd4e7d3bac2de8a53f"
+  },
+  "nodeGroups": [],
+  "id": "TAWDbWeaBV8ks8lI",
+  "tags": [
+    {
+      "name": "Audio Extraction",
+      "id": "8nEMbAGtGeGsh5JJ",
+      "updatedAt": "2026-09-15T09:42:56.145Z",
+      "createdAt": "2026-09-15T09:42:56.145Z"
+    },
+    {
+      "name": "REST API",
+      "id": "AkX3ZsbKVjOVpR6n",
+      "updatedAt": "2026-09-15T09:44:12.644Z",
+      "createdAt": "2026-09-15T09:44:12.644Z"
+    },
+    {
+      "name": "FFmpeg",
+      "id": "MSx4mNxhipcoMdsj",
+      "updatedAt": "2026-09-15T09:43:23.797Z",
+      "createdAt": "2026-09-15T09:43:23.797Z"
+    },
+    {
+      "name": "Apify",
+      "id": "olQ4Ca0wOrgQgnM5",
+      "updatedAt": "2026-09-15T09:42:33.226Z",
+      "createdAt": "2026-09-15T09:42:33.226Z"
+    },
+    {
+      "name": "Media Automation",
+      "id": "pA969B83UgrPwcY4",
+      "updatedAt": "2026-09-15T09:43:39.275Z",
+      "createdAt": "2026-09-15T09:43:39.275Z"
+    },
+    {
+      "name": "ClipForge",
+      "id": "qDHBqldG6w9sIscI",
+      "updatedAt": "2026-09-15T09:44:06.566Z",
+      "createdAt": "2026-09-15T09:44:06.566Z"
+    },
+    {
+      "name": "Video Trimming",
+      "id": "rAIUyRbyFS2qLStA",
+      "updatedAt": "2026-09-15T09:43:57.751Z",
+      "createdAt": "2026-09-15T09:43:57.751Z"
+    }
+  ]
+}
