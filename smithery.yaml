@@ -1,10 +1,21 @@
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
 startCommand:
   type: stdio
   configSchema:
     type: object
+    required:
+      - apifyToken
     properties:
       apifyToken:
         type: string
         description: "Your Apify API Token for running the ClipForge Actor"
-    required:
-      - apifyToken
+        x-from:
+          header: "authorization"
+  commandFunction: |-
+    (config) => ({
+      command: "node",
+      args: ["dist/index.js"],
+      env: {
+        APIFY_API_TOKEN: config.apifyToken
+      }
+    })
