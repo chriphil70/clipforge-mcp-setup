@@ -1,0 +1,8 @@
+JSON
+
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "maintainers": [
+    "chriphil70"
+  ]
+}
