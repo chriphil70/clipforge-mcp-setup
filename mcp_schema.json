@@ -1,31 +1,49 @@
 {
-  "name": "budding_retrograde/clipforge",
-  "description": "Video Trim, Watermark, Extract Audio, and Vertical Convert API for AI Agents.",
-  "parameters": {
-    "type": "object",
-    "properties": {
-      "action": {
-        "type": "string",
-        "enum": ["trim", "extract-audio", "watermark", "convert-vertical"],
-        "description": "The processing operation to execute."
-      },
-      "inputUrl": {
-        "type": "string",
-        "description": "Direct MP4 URL, YouTube link, or web video source supported by yt-dlp."
-      },
-      "startTime": {
-        "type": "number",
-        "description": "Start offset in seconds for trimming."
-      },
-      "duration": {
-        "type": "number",
-        "description": "Length of the trimmed clip in seconds."
-      },
-      "bitrate": {
-        "type": "string",
-        "description": "Audio extraction quality (e.g., '192k', '256k')."
+  "tools": [
+    {
+      "name": "clipforge_run",
+      "description": "Trim, watermark, extract audio, burn subtitles, and convert videos to 9:16 vertical using the ClipForge Apify Actor. Supports direct file URLs and YouTube/yt-dlp links.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "Select the media processing operation to execute (e.g., trim, extract-clip, watermark, convert-vertical-subtitles)."
+          },
+          "inputUrl": {
+            "type": "string",
+            "description": "Direct HTTP/HTTPS URL to the source media file or YouTube/yt-dlp supported link."
+          },
+          "startTime": {
+            "type": "integer",
+            "description": "Start offset in seconds (required for 'trim' and 'extract-clip')."
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Clip duration in seconds (required for 'trim' and 'extract-clip')."
+          },
+          "format": {
+            "type": "string",
+            "description": "Output format for the 'extract-clip' action (mp3 or mp4)."
+          },
+          "bitrate": {
+            "type": "string",
+            "description": "Audio bitrate for MP3 extraction (e.g., 128k, 192k, 320k)."
+          },
+          "watermarkUrl": {
+            "type": "string",
+            "description": "Direct HTTP/HTTPS URL to a PNG/JPEG image for the 'watermark' action."
+          },
+          "subtitles": {
+            "type": "string",
+            "description": "Raw SRT subtitle text or a public URL to an .srt file for the 'convert-vertical-subtitles' action."
+          }
+        },
+        "required": [
+          "action",
+          "inputUrl"
+        ]
       }
-    },
-    "required": ["action", "inputUrl"]
-  }
+    }
+  ]
 }
