@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "clipforge": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@apify/mcp-server",
+        "--actor-id",
+        "budding_retrograde/clipforge"
+      ],
+      "env": {
+        "APIFY_TOKEN": "YOUR_APIFY_API_TOKEN_HERE"
+      }
+    }
+  }
+}
