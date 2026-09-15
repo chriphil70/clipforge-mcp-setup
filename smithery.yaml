@@ -1,0 +1,10 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      apifyToken:
+        type: string
+        description: "Your Apify API Token for running the ClipForge Actor"
+    required:
+      - apifyToken
